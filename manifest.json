@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Analytics for Vinted",
+  "version": "2.0.0",
+  "description": "Collecte massive des annonces Vinted et dashboard d'analyse : likes, prix, vendeurs, détection de revendeurs.",
+  "permissions": ["unlimitedStorage"],
+  "host_permissions": ["https://www.vinted.fr/*"],
+  "background": { "service_worker": "src/background/service-worker.js", "type": "module" },
+  "action": { "default_title": "Ouvrir le dashboard Analytics for Vinted" },
+  "content_scripts": [
+    {
+      "matches": ["https://www.vinted.fr/*"],
+      "js": ["src/content/parser.js", "src/content/crawler.js"],
+      "css": ["src/content/widget.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

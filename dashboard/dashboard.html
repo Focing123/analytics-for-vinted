@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analytics for Vinted</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">Analytics for Vinted</div>
+    <select id="session" aria-label="Session de collecte"></select>
+    <span id="status" class="pill">—</span>
+    <span class="spacer"></span>
+    <button id="btn-csv" class="btn">Export CSV</button>
+    <button id="btn-json" class="btn">Export JSON</button>
+    <button id="btn-del" class="btn danger">Supprimer</button>
+  </header>
+
+  <div class="layout">
+    <aside class="filters" aria-label="Filtres">
+      <h2>Filtres</h2>
+      <label>Recherche<input id="f-q" type="search" placeholder="titre ou marque"></label>
+      <div class="two"><label>Prix min<input id="f-pmin" type="number" min="0"></label><label>Prix max<input id="f-pmax" type="number" min="0"></label></div>
+      <div class="two"><label>Likes min<input id="f-lmin" type="number" min="0"></label><label>Likes max<input id="f-lmax" type="number" min="0"></label></div>
+      <label>Marque<input id="f-brand" list="brands" placeholder="exacte"></label><datalist id="brands"></datalist>
+      <label>État<input id="f-state" list="states" placeholder="ex. Neuf avec étiquette"></label><datalist id="states"></datalist>
+      <label>Annonces similaires chez un vendeur ≥<input id="f-sim" type="number" min="2" placeholder="2 = suspects"></label>
+      <label class="chk"><input id="f-demand" type="checkbox"> « En demande » seulement</label>
+      <label class="chk"><input id="f-biz" type="checkbox"> Vendeurs pro seulement</label>
+      <div id="f-tags" class="tags"></div>
+      <button id="f-reset" class="btn">Réinitialiser</button>
+    </aside>
+
+    <main>
+      <section class="kpis" id="kpis" aria-label="Indicateurs clés"></section>
+      <div class="tabs" role="tablist" aria-label="Sections du dashboard">
+        <button role="tab" id="tabbtn-overview" data-tab="overview" aria-controls="tab-overview" aria-selected="true">Aperçu</button>
+        <button role="tab" id="tabbtn-items" data-tab="items" aria-controls="tab-items" aria-selected="false" tabindex="-1">Annonces</button>
+        <button role="tab" id="tabbtn-sellers" data-tab="sellers" aria-controls="tab-sellers" aria-selected="false" tabindex="-1">Vendeurs</button>
+        <button role="tab" id="tabbtn-products" data-tab="products" aria-controls="tab-products" aria-selected="false" tabindex="-1">Produits répandus</button>
+      </div>
+
+      <section id="tab-overview" class="grid" role="tabpanel" aria-labelledby="tabbtn-overview">
+        <figure class="card"><figcaption>Répartition des prix</figcaption><canvas id="c-price"></canvas></figure>
+        <figure class="card"><figcaption>Répartition des likes</figcaption><canvas id="c-likes"></canvas></figure>
+        <figure class="card wide"><figcaption>Prix vs likes (échantillon)</figcaption><canvas id="c-scatter"></canvas></figure>
+        <figure class="card"><figcaption>Marques les plus présentes</figcaption><canvas id="c-brands"></canvas></figure>
+        <figure class="card"><figcaption>Vendeurs les plus actifs (annonces)</figcaption><canvas id="c-sellers"></canvas></figure>
+        <figure class="card"><figcaption>Ancienneté estimée des comptes (ID vendeur)</figcaption><canvas id="c-age"></canvas></figure>
+        <figure class="card"><figcaption>États</figcaption><canvas id="c-states"></canvas></figure>
+      </section>
+
+      <section id="tab-items" hidden role="tabpanel" aria-labelledby="tabbtn-items">
+        <p class="sr-only" id="items-help">Tableau des annonces. Flèches haut et bas pour changer de ligne, Page précédente et suivante pour aller plus vite, Entrée pour ouvrir l'annonce sur Vinted.</p>
+        <div id="items-table" role="table" aria-label="Annonces" aria-describedby="items-help" aria-colcount="9">
+          <div class="thead" id="items-head" role="row" aria-rowindex="1"></div>
+          <div class="vscroll" id="items-scroll"><div id="items-spacer"><div id="items-rows" role="rowgroup"></div></div></div>
+        </div>
+      </section>
+
+      <section id="tab-sellers" hidden role="tabpanel" aria-labelledby="tabbtn-sellers">
+        <div class="bar">
+          <label>Similaires ≥ <input id="s-sim" type="number" min="1" value="2"></label>
+          <label class="chk"><input id="s-recent" type="checkbox"> Comptes récents</label>
+          <label class="chk"><input id="s-biz" type="checkbox"> Pro</label>
+          <input id="s-q" type="search" placeholder="vendeur, ID, exemple…">
+          <button id="s-profiles" class="btn">Charger les profils (top 40)</button>
+          <span id="s-progress" class="muted"></span>
+        </div>
+        <p class="muted note">Score = annonces similaires + volume + même prix + photo réutilisée + compte récent + gros stock avec peu d'avis. Ce sont des indices, pas une preuve.</p>
+        <div class="table-wrap"><table class="tbl" id="sellers-table"></table></div>
+      </section>
+
+      <section id="tab-products" hidden role="tabpanel" aria-labelledby="tabbtn-products">
+        <p class="muted note">Produits dont le titre est quasi identique chez plusieurs vendeurs : signal fort de produit revendu en masse.</p>
+        <div class="table-wrap"><table class="tbl" id="products-table"></table></div>
+      </section>
+    </main>
+  </div>
+  <div id="backdrop" class="backdrop" hidden aria-hidden="true"></div>
+  <div id="drawer" class="drawer" hidden role="dialog" aria-modal="true" aria-labelledby="drawer-title"></div>
+  <div id="sr-status" class="sr-only" role="status" aria-live="polite"></div>
+  <div id="tip" class="tip" hidden></div>
+  <script type="module" src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+# Données collectées : ne jamais les versionner (annonces, pseudos, identifiants vendeurs)
+*.csv
+*.sqlite
+*.db
+exports/
+vinted-*.json
+!docs/demo-items.json
+
+# Secrets / environnement
+.env
+.env.*
+*.pem
+*.key
+
+# Éditeurs, OS, logs
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+
+# Fichiers de test locaux
+scratch/
+*.local

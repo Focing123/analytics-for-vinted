@@ -1,0 +1,28 @@
+#vtl-widget {
+  --bg: #fff; --fg: #1d2530; --muted: #6b7684; --line: #dde2e8; --accent: #0b7285; --accent-fg: #fff;
+  position: fixed; right: 16px; bottom: 16px; z-index: 2147483000; width: 290px;
+  background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .18); font: 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  #vtl-widget { --bg: #1b2028; --fg: #e8ecf1; --muted: #98a3b1; --line: #2f3742; --accent: #22b8cf; --accent-fg: #06222a; }
+}
+#vtl-widget .vtl-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+#vtl-widget .vtl-body { display: grid; gap: 10px; padding: 12px; }
+#vtl-widget.vtl-collapsed .vtl-body { display: none; }
+#vtl-widget label { display: grid; gap: 4px; color: var(--muted); font-size: 12px; }
+#vtl-widget select, #vtl-widget input {
+  background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; font: inherit; min-width: 0;
+}
+#vtl-widget .vtl-row { display: flex; gap: 8px; }
+#vtl-widget .vtl-row > * { flex: 1; }
+#vtl-widget button {
+  background: transparent; color: var(--fg); border: 1px solid var(--line); border-radius: 8px;
+  padding: 7px 10px; font: inherit; font-weight: 600; cursor: pointer;
+}
+#vtl-widget button:hover { border-color: var(--accent); }
+#vtl-widget button.vtl-primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+#vtl-widget .vtl-head button { flex: none; padding: 0 8px; }
+#vtl-widget .vtl-bar { height: 4px; background: var(--line); border-radius: 4px; overflow: hidden; }
+#vtl-widget .vtl-bar i { display: block; height: 100%; width: 0; background: var(--accent); }
+#vtl-widget #vtl-stat { color: var(--muted); font-size: 12px; min-height: 2.8em; }
